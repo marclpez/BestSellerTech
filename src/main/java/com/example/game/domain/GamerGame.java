@@ -1,5 +1,7 @@
 package com.example.game.domain;
 
+import com.example.game.domain.Gamer;
+import com.example.game.enums.Level;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,8 +10,8 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "Geography")
-public class Geography {
+@Table(name = "GamerGame")
+public class GamerGame {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -20,10 +22,15 @@ public class Geography {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "country")
-    private String country;
+    @ManyToOne
+    @JoinColumn(name = "gamer_id")
+    private Gamer gamer;
 
-    @Column(name = "city")
-    private String city;
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
+
+    @Enumerated(EnumType.STRING)
+    private Level level;
 
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "GAME")
+@Table(name = "Game")
 public class Game {
 
     @Id
@@ -18,14 +18,17 @@ public class Game {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-    private String name;
-    private String description;
 
-    @ManyToMany(mappedBy = "games")
-    private List<Gamer> gamers;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "geography_id")
     private Geography geography;
+
 }
