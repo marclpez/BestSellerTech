@@ -1,17 +1,24 @@
 package com.example.game.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 
 @Data
-@Entity(name = "GEOGRAPHY")
+@Entity
+@Table(name = "GEOGRAPHY")
 public class Geography {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
     private String country;
     private String city;
 }
