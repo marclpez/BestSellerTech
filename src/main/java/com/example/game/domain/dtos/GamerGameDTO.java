@@ -1,8 +1,11 @@
 package com.example.game.domain.dtos;
 
+
+import com.example.game.enums.Level;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -14,6 +17,7 @@ public class GamerGameDTO {
     @NotNull(message = "Game ID is mandatory")
     private UUID gameId;
 
-    @NotBlank(message = "Level is mandatory")
-    private String level;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Level is mandatory")
+    private Level level;
 }

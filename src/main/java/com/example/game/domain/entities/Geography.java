@@ -1,6 +1,6 @@
 package com.example.game.domain.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
