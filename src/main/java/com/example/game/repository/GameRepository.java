@@ -1,6 +1,6 @@
 package com.example.game.repository;
 
-import com.example.game.domain.Game;
+import com.example.game.domain.entities.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

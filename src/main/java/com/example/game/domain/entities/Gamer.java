@@ -1,16 +1,15 @@
-package com.example.game.domain;
+package com.example.game.domain.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "Game")
-public class Game {
+@Table(name = "Gamer")
+public class Gamer {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -24,8 +23,8 @@ public class Game {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "email")
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "geography_id")

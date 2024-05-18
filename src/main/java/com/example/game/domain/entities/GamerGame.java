@@ -1,8 +1,7 @@
-package com.example.game.domain;
+package com.example.game.domain.entities;
 
-import com.example.game.domain.Gamer;
 import com.example.game.enums.Level;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
