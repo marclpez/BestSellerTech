@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -31,6 +32,14 @@ public class GamerGameServiceImpl implements GamerGameService {
 
     @Override
     public void linkGamerToGame(GamerGameDTO gamerGameDTO) {
+
+        // Check if a record already exists for the provided gameId and gamerId
+        gamerGameRepository.findByGamerIdAndGameId(gamerGameDTO.getGamerId(), gamerGameDTO.getGameId())
+                .ifPresent( gamerGame -> {
+                    log.warn("Duplicate record: a GamerGame already exists for the provided gameId {} and gamerId {}", gamerGameDTO.getGameId(), gamerGameDTO.getGamerId());
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A record already exists for the provided gameId and gamerId");
+                });
+
         try{
             //Verify if the game exists
             Game game = gameService.getGameById(gamerGameDTO.getGameId());
