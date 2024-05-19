@@ -3,7 +3,7 @@ package com.example.game.domain.dtos;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Data
