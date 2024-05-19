@@ -8,15 +8,15 @@ import com.example.game.enums.Level;
 import com.example.game.mapper.GamerMapper;
 import com.example.game.repository.GamerRepository;
 import com.example.game.service.GameService;
-import com.example.game.service.GamerGameService;
 import com.example.game.service.GamerService;
+import com.example.game.specification.GamerSpecification;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,9 +30,12 @@ public class GamerServiceImpl implements GamerService {
 
     private final GameService gameService;
 
-    public GamerServiceImpl(GamerRepository gamerRepository, GameService gameService) {
+    private final GamerSpecification gamerSpecification;
+
+    public GamerServiceImpl(GamerRepository gamerRepository, GameService gameService, GamerSpecification gamerSpecification) {
         this.gamerRepository = gamerRepository;
         this.gameService = gameService;
+        this.gamerSpecification = gamerSpecification;
     }
 
     @Override
@@ -53,5 +56,13 @@ public class GamerServiceImpl implements GamerService {
             log.error("Entity not found: {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @Override
+    public List<GamerDTO> searchGamers(Level level, UUID gameId, UUID geographyId) {
+        Specification<Gamer> specification = gamerSpecification.buildSpecification(level, gameId, geographyId);
+        List<Gamer> gamerList = gamerRepository.findAll(specification);
+
+        return gamerList.stream().map(GamerMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 }

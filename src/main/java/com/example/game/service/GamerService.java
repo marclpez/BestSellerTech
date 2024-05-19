@@ -11,4 +11,6 @@ public interface GamerService {
     Gamer getGamerById(UUID id);
 
     List<GamerDTO> getGamersByLevelAndGame(Level level, UUID gameId);
+
+    List<GamerDTO> searchGamers(Level level, UUID gameId, UUID geographyId);
 }

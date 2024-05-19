@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -30,4 +31,6 @@ public class Gamer {
     @JoinColumn(name = "geography_id")
     private Geography geography;
 
+    @OneToMany(mappedBy = "gamer")
+    private List<GamerGame> games; // Relación con la tabla intermedia
 }
