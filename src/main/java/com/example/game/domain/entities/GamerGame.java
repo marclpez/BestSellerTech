@@ -1,6 +1,7 @@
 package com.example.game.domain.entities;
 
 import com.example.game.enums.Level;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,10 +24,12 @@ public class GamerGame {
 
     @ManyToOne
     @JoinColumn(name = "gamer_id")
+    @JsonBackReference
     private Gamer gamer;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
+    @JsonBackReference
     private Game game;
 
     @Enumerated(EnumType.STRING)

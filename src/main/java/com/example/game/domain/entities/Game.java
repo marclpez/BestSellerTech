@@ -1,5 +1,6 @@
 package com.example.game.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,6 +33,7 @@ public class Game {
     private Geography geography;
 
     @OneToMany(mappedBy = "game")
+    @JsonManagedReference
     private List<GamerGame> gamers; // Relación con la tabla intermedia
 
 }

@@ -2,6 +2,7 @@ package com.example.game.controller;
 
 import com.example.game.domain.dtos.GamerDTO;
 import com.example.game.domain.entities.Game;
+import com.example.game.domain.entities.Gamer;
 import com.example.game.enums.Level;
 import com.example.game.service.GamerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -21,13 +23,10 @@ public class GamerController {
         this.gamerService = gamerService;
     }
 
-    @GetMapping("/level/{level}/game/{gameId}")
-    public ResponseEntity<List<GamerDTO>> getGamersByLevelAndGame(
-            @PathVariable Level level, @PathVariable UUID gameId) {
-
-        List<GamerDTO> gamers = gamerService.getGamersByLevelAndGame(level, gameId);
-
-        return ResponseEntity.ok(gamers);
+    @GetMapping("/level/{level}")
+    public ResponseEntity<List<GamerDTO>> getGamersByLevelPerGame(@PathVariable Level level) {
+        List<GamerDTO> gamersByGame = gamerService.getGamersByLevelPerGame(level);
+        return ResponseEntity.ok(gamersByGame);
     }
 
     @GetMapping("/search")

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Repository
 public interface GamerRepository extends JpaRepository<Gamer, UUID>, JpaSpecificationExecutor<Gamer> {
-
-    @Query("SELECT DISTINCT gg.gamer FROM GamerGame gg WHERE gg.level = :level AND gg.game = :game")
-    List<Gamer> findGamersByLevelAndGame(@Param("level") Level level, @Param("game") Game game);
+    @Query("SELECT g FROM GamerGame gg JOIN gg.gamer g WHERE gg.level = :level GROUP BY gg.gamer")
+    List<Gamer> findGamersByLevel(Level level);
 }
