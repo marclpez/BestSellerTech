@@ -15,8 +15,5 @@ import java.util.UUID;
 
 @Repository
 public interface GamerGameRepository extends JpaRepository<GamerGame, UUID>, JpaSpecificationExecutor<GamerGame> {
-
     Optional<GamerGame> findByGamerIdAndGameId(UUID gamer, UUID game);
-
-    List<GamerGame> findByLevelAndGame(Level level, Game game);
 }
