@@ -3,6 +3,8 @@ package com.example.game.service.impl;
 import com.example.game.domain.dtos.GamerGameDTO;
 import com.example.game.domain.entities.Game;
 import com.example.game.domain.entities.Gamer;
+import com.example.game.domain.entities.GamerGame;
+import com.example.game.enums.Level;
 import com.example.game.mapper.GamerGameMapper;
 import com.example.game.repository.GamerGameRepository;
 import com.example.game.service.GameService;
@@ -15,20 +17,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
 public class GamerGameServiceImpl implements GamerGameService {
 
-    @Autowired
-    private GamerGameRepository gamerGameRepository;
+    private final GamerGameRepository gamerGameRepository;
 
-    @Autowired
-    private GameService gameService;
+    private final GameService gameService;
 
-    @Autowired
-    private GamerService gamerService;
+    private final GamerService gamerService;
+
+    public GamerGameServiceImpl(GamerGameRepository gamerGameRepository, GameService gameService, GamerService gamerService) {
+        this.gamerGameRepository = gamerGameRepository;
+        this.gameService = gameService;
+        this.gamerService = gamerService;
+    }
 
     @Override
     public void linkGamerToGame(GamerGameDTO gamerGameDTO) {

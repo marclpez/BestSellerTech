@@ -1,23 +1,57 @@
 package com.example.game.service.impl;
 
+import com.example.game.domain.dtos.GamerDTO;
+import com.example.game.domain.entities.Game;
 import com.example.game.domain.entities.Gamer;
+import com.example.game.domain.entities.GamerGame;
+import com.example.game.enums.Level;
+import com.example.game.mapper.GamerMapper;
 import com.example.game.repository.GamerRepository;
+import com.example.game.service.GameService;
+import com.example.game.service.GamerGameService;
 import com.example.game.service.GamerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class GamerServiceImpl implements GamerService {
 
-    @Autowired
-    private GamerRepository gamerRepository;
+
+    private final GamerRepository gamerRepository;
+
+    private final GameService gameService;
+
+    public GamerServiceImpl(GamerRepository gamerRepository, GameService gameService) {
+        this.gamerRepository = gamerRepository;
+        this.gameService = gameService;
+    }
 
     @Override
     public Gamer getGamerById(UUID id) {
         return gamerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Gamer not found with id: " + id));
+    }
+
+    @Override
+    public List<GamerDTO> getGamersByLevelAndGame(Level level, UUID gameId) {
+        try{
+            Game game = gameService.getGameById(gameId);
+
+            return gamerRepository.findGamersByLevelAndGame(level, game).stream()
+                    .map(GamerMapper.INSTANCE::entityToDto)
+                    .collect(Collectors.toList());
+        } catch(EntityNotFoundException e){
+            log.error("Entity not found: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }
